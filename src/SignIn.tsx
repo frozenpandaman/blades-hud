@@ -57,7 +57,7 @@ class SignIn extends React.PureComponent<{}, State> {
             password: <input type="password" value={this.state.pw} onChange={this.handlePwChange} /> <span id="msg" className="red pl2"></span>
             <br />
             <br />
-            <input type="submit" value="sign in" />
+            <input type="submit" value="play!" />
           </form>
         );
     }

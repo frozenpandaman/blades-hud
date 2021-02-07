@@ -5,6 +5,7 @@ import Tools from "./Tools";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import injectStyle from './injectStyle';
 
 const players = ["group", "world events", "milena", "avery"]; // HARDCODED
 
@@ -14,7 +15,6 @@ interface State {
     unsub_fns: Function[];
     db:firebase.firestore.Firestore;
 }
-
 
 class Hud extends React.PureComponent<{}, State> {
     constructor(props: {}) {
@@ -33,6 +33,17 @@ class Hud extends React.PureComponent<{}, State> {
         };
 
         this.change_player = this.change_player.bind(this);
+
+        const keyframesStyle = `
+            @-webkit-keyframes pulse {
+                0%   { background-color: #10c018; }
+                25%  { background-color: #1056c0; }
+                50%  { background-color: #ef0a1a; }
+                75%  { background-color: #254878; }
+                100% { background-color: #04a1d5; }
+            }
+        `;
+        injectStyle(keyframesStyle);
     }
 
     public componentWillUnmount() {
@@ -45,6 +56,13 @@ class Hud extends React.PureComponent<{}, State> {
         this.setState({
             current_player: e.currentTarget.value,
         });
+    }
+
+    private bg_reg(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+        const bg = document.getElementById("lookatme")!;
+        bg.style.webkitAnimation = "none";
+        const txt = document.getElementById("backtoreg")!;
+        txt.style.color = "black";
     }
 
     public signOut(event: React.ChangeEvent<HTMLFormElement>) {
@@ -68,20 +86,24 @@ class Hud extends React.PureComponent<{}, State> {
                         <Pages players={players} {...this.state} />
                     </div>
                     <div className="flex-column w-20 outline-l relative">
-                        <div className="tc mv3">
-                            <span className="pl1 pr1">i am:</span>
+                        <div className="tc pv3" id="lookatme" style={{WebkitAnimation:"pulse 2s linear infinite"}}>
+                            <span className="pl4 pr1" id="backtoreg" style={{color:"white"}}>i am:</span>
                             <select value={this.state.current_player} onChange={this.change_player}>
                                 { players.slice(2).map( player => {
                                     return <option value={player}>{player}</option>
                                 }) }
                             </select>
+                            <a href="#!"
+                            onClick={this.bg_reg}
+                            className="pl2 pr2"
+                            style={{color:"white", textDecoration:"none"}}>&#x2714;&#xfe0e;</a>
                         </div>
-                        <div className="mv1 bb"></div>
+                        <div className="bb"></div>
                         <Tools/>
                         <div className="mb3 bb"></div>
                         <p className="b f6 tc">
                             <form onSubmit={this.signOut}>
-                                <input type="submit" value="sign out" />
+                                <input type="submit" value="done playing" />
                             </form>
                         </p>
                         <div
