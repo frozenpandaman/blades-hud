@@ -1,5 +1,5 @@
 {
-  "name": "blades-hud",
+  "name": "blades",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,11 +19,11 @@
     "react-color": "^2.18.1",
     "react-dom": "^16.12.x",
     "react-icons": "^3.10.0",
-    "react-konva": "latest",
+    "react-konva": "^16.13.0-6",
     "react-scripts": "^3.4.3",
     "typescript": "latest"
   },
-  "homepage": "https://jwarley.github.io/blades-hud/",
+  "homepage": "https://frozenpandaman.github.io/blades/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

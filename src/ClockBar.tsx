@@ -16,7 +16,7 @@ function ClockBar(props: Props) {
         const clock = pair[1];
 
         return (
-                <div key={id} className="flex flex-column justify-between outline">
+                <div key={id} className="flex flex-column justify-between">
                     <div className="">
                         <Clock
                             clock={clock}
@@ -24,11 +24,12 @@ function ClockBar(props: Props) {
                         />
                     </div>
                     <div className="tc pb2">
-                            <button className="ba pointer ph1"
-                               onClick={() => {
+                            <a href="#!" className="bg-light-gray ba ph2 pv1 pointer f6"
+                                style={{color:"black", textDecoration:"none"}}
+                                onClick={() => {
                                    props.delete_func(id, props.owner);
-                               }}
-                            >Delete</button>
+                                }}
+                            >&#x2715;</a>
                     </div>
                 </div>
         );
@@ -37,19 +38,19 @@ function ClockBar(props: Props) {
     return (
         <div>
             <div className="p0">
-                <p className="ttc f3">{props.owner}</p>
+                <p className="f3">{props.owner.toLowerCase()}</p>
             </div>
-            <div className="flex bt bb">
-                <div className="flex flex-column tc bg-blue pointer justify-center"
+            <div className="flex">
+                <div className="flex flex-column tc bg-light-blue ba bw0 ph2 pv1 pointer justify-center"
                      onClick={ () => {
-                         const desc = window.prompt("What's the clock for?", "Nothin'");
+                         const desc = window.prompt("clock name?", "");
                          if(!desc){return;}
-                         const n_slices = Number(window.prompt("How many slices?", "4"));
+                         const n_slices = Number(window.prompt("number of slices?", "4"));
                          if(!n_slices){return;}
                          props.new_func(props.owner, desc, n_slices);
                      }}
                 >
-                    <div className="f2 w3">+</div>
+                    <div className="f3" style={{width:"19px", height:"27px", lineHeight:"1.5rem"}}>+</div>
                 </div>
 
                 <div className="flex overflow-x-scroll items-top w-100">

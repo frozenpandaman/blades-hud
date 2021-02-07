@@ -1,6 +1,6 @@
 import React from "react";
 import { CirclePicker } from "react-color";
-import map from "./img/bitd_s4_map.jpg"
+import map from "./img/doskvol_map.png"
 import { Landmark_t } from "./Types";
 import * as firebase from "firebase/app";
 import {FaMapMarkerAlt} from 'react-icons/fa';
@@ -97,7 +97,7 @@ class MapPage extends React.PureComponent<Props, State> {
             let rect = (e.target as HTMLElement).getBoundingClientRect();
             let x:number = (e.clientX - rect.left)/(e.target as HTMLElement).offsetWidth;
             let y:number = (e.clientY - rect.top)/(e.target as HTMLElement).offsetHeight;
-            let name = window.prompt("What would you like to call this landmark?", "[N/A]");
+            let name = window.prompt("landmark name?", "n/a");
             if(!name){return;}
             this.newLandmark(name,x,y);
         }
@@ -153,7 +153,7 @@ class MapPage extends React.PureComponent<Props, State> {
 
     render(){
         let lm = this.state.landmarks.get(this.state.selected_landmark)
-        let name = lm?.name ? lm!.name : "[N/A]"
+        let name = lm?.name ? lm!.name : "n/a"
         let x = lm?.x!*this.state.img_width
         let y = lm?.y!*this.state.img_height
         let left = x!>.5*this.state.img_width?"-105%":"5%";
@@ -161,8 +161,9 @@ class MapPage extends React.PureComponent<Props, State> {
         return (
             <div style={{position:"relative"}}>
                 <img ref={this.element}
-                    className = "w-100" 
-                    src={map}  
+                    alt=""
+                    className="w-100 pv1"
+                    src={map}
                     style={{position:"absolute", cursor: this.state.panel_open ? "auto" : "cell"}}
                     onClick={e => this.handleMapClick(e)}/>
 
@@ -171,12 +172,12 @@ class MapPage extends React.PureComponent<Props, State> {
                         const id = pair[0];
                         const landmark = pair[1];
                         return(
-                            <div 
+                            <div
                                 style={{position:"absolute", left:this.state.img_width*landmark.x, top:this.state.img_height*landmark.y, transform:"translateY(-100%) translateX(-50%)"}}
                             >
                                 <IconContext.Provider value={{size:this.state.selected_landmark===id?"3em":"2em", color: landmark.color?landmark.color:"red", }}>
-                                    <FaMapMarkerAlt 
-                                        onClick={()=>this.selectLandmark(id)} 
+                                    <FaMapMarkerAlt
+                                        onClick={()=>this.selectLandmark(id)}
                                         className="pointer"
                                     />
                                 </IconContext.Provider>
@@ -185,32 +186,32 @@ class MapPage extends React.PureComponent<Props, State> {
                     })
                 }
 
-                <div style={{position:"absolute", display: this.state.panel_open ? 'flex' : 'none', 
+                <div style={{position:"absolute", display: this.state.panel_open ? 'flex' : 'none',
                     flexDirection:"column", justifyContent:"space-between",
                     left: x, top:y, transform: "translateY("+top+") translateX("+left+")",
-                    width:"40%", minWidth:"350px", minHeight:"200px", 
+                    width:"40%", minWidth:"350px", minHeight:"75px",
                     backgroundColor:"white", border:"1px solid black", padding:"5px",
                 }}>
                     <div>
-                        <div className="flex flex-row content-between">
-                            <button className="bg-grey flex-auto pointer tc br"
-                                    onClick={()=>this.closePanel()}
-                            >
-                                Close
-                            </button>
-                            <button className="bg-red flex-auto pointer tc br"
+                        <div className="flex flex-row content-between fr">
+                            <button className="bg-red ba ph1 pv1 ma mh1 flex-auto pointer tc br f6"
                                     onClick={()=>this.deleteLandmark(this.state.selected_landmark)}
                             >
-                                Delete
+                                &#x2715;
+                            </button>
+                            <button className="bg-grey ba ph1 pv1 ma mh1 flex-auto pointer tc br f6"
+                                    onClick={()=>this.closePanel()}
+                            >
+                                close
                             </button>
                         </div>
-                        <h1 className="ma1">{name}</h1>
+                        <h2 className="ma1">{name}</h2>
                     </div>
-                    <div style={{width:"100%"}}>
-                        <hr/>
+                    <div style={{transform:"scale(0.75)"}}>
                         <CirclePicker
                             colors={["#f44336",  "#9c27b0",  "#3f51b5",  "#03a9f4",  "#009688",  "#8bc34a", "#ff9800",]}
-                            width="350px"
+                            width="100%"
+                            className="justify-center"
                             color={lm?.color}
                             onChangeComplete={(c,e) =>{ this.changeColor(this.state.selected_landmark, c["hex"])}}
                         />

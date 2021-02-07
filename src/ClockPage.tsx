@@ -1,6 +1,7 @@
 import React from "react";
 import * as util from "./Util";
 import { Clock_t } from "./Types";
+import {oneshot} from "./index";
 import ClockBar from "./ClockBar";
 import * as firebase from "firebase/app";
 import Konva from "konva";
@@ -28,10 +29,8 @@ class ClockPage extends React.PureComponent<Props, State> {
             group_clocks: new Map(),
             world_event_clocks: new Map(),
             player_clocks: {
-                "bricks": new Map(),
-                "shivers": new Map(),
-                "dogs": new Map(),
-                "tick tock": new Map(),
+                "milena": new Map(), // HARDCODED
+                "avery": new Map(),
             },
             unsub_fns:[]
         };
@@ -92,14 +91,19 @@ class ClockPage extends React.PureComponent<Props, State> {
             });
         }
     }
-    
+
     private new_clock(owner: string, desc: string, n_slices: number) {
-        this.props.db.collection(owner + "_clocks").add({
-            desc: desc,
-            n_slices: n_slices,
-            progress: 0,
-            timestamp: firebase.firestore.Timestamp.now(),
-        })
+        if (n_slices > 50) {
+            window.alert("can't make a clock with over 50 slices");
+        }
+        else {
+            this.props.db.collection(owner + "_clocks").add({
+                desc: desc,
+                n_slices: n_slices,
+                progress: 0,
+                timestamp: firebase.firestore.Timestamp.now(),
+            })
+        }
     }
 
     private incr_clock(c: Clock_t, incr: 1 | -1): Clock_t {
@@ -119,7 +123,7 @@ class ClockPage extends React.PureComponent<Props, State> {
 
     private handle_clock_click(evt: Konva.KonvaEventObject<MouseEvent>, owner: string, id: string) {
         if (this.props.user === null) {
-            alert("Error: You're not logged in! AaaAAh!");
+            alert("error: you're not logged in!");
         }
 
         let e = evt.evt; // the underlying js event
@@ -146,7 +150,11 @@ class ClockPage extends React.PureComponent<Props, State> {
     }
 
     render(){
-        const ordered_players = ["world events", "group"].concat(util.bring_to_front(this.props.players.slice(2), this.props.current_player));
+        var default_clocks = ["world events"];
+        if (!oneshot) {
+            default_clocks.push("group"); // no group from view for oneshot
+        }
+        const ordered_players = default_clocks.concat(util.bring_to_front(this.props.players.slice(2), this.props.current_player));
 
         let get_clocks = (owner: string) => {
             if (owner === "group") {
