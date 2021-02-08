@@ -1,6 +1,18 @@
 import React from "react";
 import { CirclePicker } from "react-color";
 import map from "./img/doskvol_map.png"
+import barrowcleft from "./img/maps/barrowcleft.png"
+import brightstone from "./img/maps/brightstone.png"
+import charhollow from "./img/maps/charhollow.png"
+import charterhall from "./img/maps/charterhall.png"
+import coalridge from "./img/maps/coalridge.png"
+import crowsfoot from "./img/maps/crowsfoot.png"
+import docks from "./img/maps/docks.png"
+import dunslough from "./img/maps/dunslough.png"
+import nightmarket from "./img/maps/nightmarket.png"
+import silkshore from "./img/maps/silkshore.png"
+import sixtowers from "./img/maps/sixtowers.png"
+import whitecrown from "./img/maps/whitecrown.png"
 import { Landmark_t } from "./Types";
 import * as firebase from "firebase/app";
 import {FaMapMarkerAlt} from 'react-icons/fa';
@@ -41,6 +53,7 @@ class MapPage extends React.PureComponent<Props, State> {
             selected_landmark:"",
         };
         this.handleMapClick = this.handleMapClick.bind(this);
+        this.handleMapRightClick = this.handleMapRightClick.bind(this);
         this.newLandmark = this.newLandmark.bind(this);
         this.deleteLandmark = this.deleteLandmark.bind(this);
     }
@@ -90,16 +103,102 @@ class MapPage extends React.PureComponent<Props, State> {
         });
     }
 
-    private handleMapClick(e:React.MouseEvent<HTMLElement>){
-        if(this.state.panel_open){
-            this.closePanel();
-        }else{
-            let rect = (e.target as HTMLElement).getBoundingClientRect();
-            let x:number = (e.clientX - rect.left)/(e.target as HTMLElement).offsetWidth;
-            let y:number = (e.clientY - rect.top)/(e.target as HTMLElement).offsetHeight;
-            let name = window.prompt("landmark name?", "n/a");
-            if(!name){return;}
-            this.newLandmark(name,x,y);
+    private handleMapClick(e:React.MouseEvent<HTMLElement>) {
+        var currentmap = (e.target as HTMLImageElement);
+        if (currentmap.getAttribute("src") !== map) {
+            // treat left click as right click (go back to main map) if on zoomed map
+            this.handleMapRightClick(e);
+        } else {
+            if (this.state.panel_open) {
+                this.closePanel();
+            } else {
+                let rect = (e.target as HTMLElement).getBoundingClientRect();
+                let x:number = (e.clientX - rect.left)/(e.target as HTMLElement).offsetWidth;
+                let y:number = (e.clientY - rect.top)/(e.target as HTMLElement).offsetHeight;
+                let name = window.prompt("landmark name?", "n/a");
+                if(!name){return;}
+                this.newLandmark(name,x,y);
+            }
+        }
+    }
+
+    private switchImg(e:React.MouseEvent<HTMLElement>, zoomUrl:string) {
+        e.preventDefault();
+        var img = (e.target as HTMLImageElement);
+        img.setAttribute('src', zoomUrl);
+        img.setAttribute('style', 'cursor: w-resize');
+        var lms = document.getElementsByClassName("landmark");
+        for (var i = 0; i < lms.length; i++) {
+            lms[i].setAttribute('display', 'none');
+        }
+    }
+
+    private handleMapRightClick(e:React.MouseEvent<HTMLElement>) {
+        // click location
+        let rect = (e.target as HTMLElement).getBoundingClientRect();
+        let x:number = (e.clientX - rect.left)/(e.target as HTMLElement).offsetWidth;
+        let y:number = (e.clientY - rect.top)/(e.target as HTMLElement).offsetHeight;
+
+        var currentmap = (e.target as HTMLImageElement);
+        if (currentmap.getAttribute("src") !== map) {
+            e.preventDefault();
+            // go back to home, undo switchImg
+            currentmap.setAttribute("src", map);
+            currentmap.setAttribute('style', 'cursor: crosshair');
+            var lms = document.getElementsByClassName("landmark");
+            for (var i = 0; i < lms.length; i++) {
+                lms[i].setAttribute('display', 'unset');
+            }
+        }
+        else { // regular right click behavior
+            if ((x > 0.5325497287522604) && (y > 0.8484486873508353) &&
+                (x < 0.7956600361663653) && (y < 0.9248210023866349)) {
+                    this.switchImg(e, barrowcleft)
+            } else
+            if ((x > 0.1763110307414105) && (y > 0.220763723150358) &&
+                (x < 0.3462929475587703) && (y < 0.4904534606205251)) {
+                    this.switchImg(e, brightstone)
+            } else
+            if ((x > 0.5081374321880651) && (y > 0.5119331742243437) &&
+                (x < 0.6482820976491862) && (y < 0.665871121718377)) {
+                    this.switchImg(e, charhollow)
+            } else
+            if ((x > 0.3707052441229656) && (y > 0.2732696897374702) &&
+                (x < 0.5768535262206148) && (y < 0.4785202863961814)) {
+                    this.switchImg(e, charterhall)
+            } else
+            if ((x > 0.5858951175406871) && (y > 0.3138424821002387) &&
+                (x < 0.7848101265822784) && (y < 0.3902147971360382)) {
+                    this.switchImg(e, coalridge)
+            } else
+            if ((x > 0.3933092224231465) && (y > 0.5143198090692124) &&
+                (x < 0.5153707052441230) && (y < 0.6992840095465394)) {
+                    this.switchImg(e, crowsfoot)
+            } else
+            if ((x > 0.2613019891500904) && (y > 0.535799522673031) &&
+                (x < 0.3824593128390596) && (y < 0.720763723150358)) {
+                    this.switchImg(e, docks)
+            } else
+            if ((x > 0.6708860759493671) && (y > 0.4498806682577566) &&
+                (x < 0.8878842676311031) && (y < 0.6026252983293556)) {
+                    this.switchImg(e, dunslough)
+            } else
+            if ((x > 0.5307414104882460) && (y > 0.09307875894988067) &&
+                (x < 0.7097649186256781) && (y < 0.28878281622911695)) {
+                    this.switchImg(e, nightmarket)
+            } else
+            if ((x > 0.3833634719710669) && (y > 0.7183770883054893) &&
+                (x < 0.6229656419529838) && (y < 0.8293556085918854)) {
+                    this.switchImg(e, silkshore)
+            } else
+            if ((x > 0.3083182640144665) && (y > 0.13126491646778043) &&
+                (x < 0.5415913200723327) && (y < 0.25894988066825775)) {
+                    this.switchImg(e, sixtowers)
+            } else
+            if ((x > 0.01808318264014466) && (y > 0.4105011933174224) &&
+                (x < 0.24773960216998192) && (y < 0.8866348448687351)) {
+                    this.switchImg(e, whitecrown)
+            }
         }
     }
 
@@ -109,13 +208,14 @@ class MapPage extends React.PureComponent<Props, State> {
             x:x,
             y:y,
             desc:"",
+            class:"landmark",
             timestamp: firebase.firestore.Timestamp.now(),
             color:"#f44336"
         }).then(docRef => {
             this.selectLandmark(docRef.id)
         })
         .catch(function(error) {
-            console.error("Error adding document: ", error);
+            console.error("error adding landmark: ", error);
         });
     }
 
@@ -134,12 +234,10 @@ class MapPage extends React.PureComponent<Props, State> {
     }
 
     private showPanel(id:string){
-        // this.props.db.collection("landmarks").doc(id).delete();
         this.setState({panel_open:true})
     }
 
     private closePanel(){
-        // this.props.db.collection("landmarks").doc(id).delete();
         this.setState({panel_open:false, selected_landmark:""})
     }
 
@@ -164,8 +262,10 @@ class MapPage extends React.PureComponent<Props, State> {
                     alt=""
                     className="w-100 pv1"
                     src={map}
-                    style={{position:"absolute", cursor: this.state.panel_open ? "auto" : "cell"}}
-                    onClick={e => this.handleMapClick(e)}/>
+                    id="map"
+                    style={{position:"absolute", cursor: this.state.panel_open ? "auto" : "crosshair"}}
+                    onClick={e => this.handleMapClick(e)}
+                    onContextMenu={e => this.handleMapRightClick(e)} />
 
                 {
                     Array.from(this.state.landmarks).map((pair)=>{
@@ -178,7 +278,7 @@ class MapPage extends React.PureComponent<Props, State> {
                                 <IconContext.Provider value={{size:this.state.selected_landmark===id?"3em":"2em", color: landmark.color?landmark.color:"red", }}>
                                     <FaMapMarkerAlt
                                         onClick={()=>this.selectLandmark(id)}
-                                        className="pointer"
+                                        className="pointer landmark"
                                     />
                                 </IconContext.Provider>
                             </div>
