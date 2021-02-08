@@ -36,11 +36,9 @@ class Hud extends React.PureComponent<{}, State> {
 
         const keyframesStyle = `
             @-webkit-keyframes pulse {
-                0%   { background-color: #10c018; }
-                25%  { background-color: #1056c0; }
-                50%  { background-color: #ef0a1a; }
-                75%  { background-color: #254878; }
-                100% { background-color: #04a1d5; }
+                0%   { background-color: #ffffff; }
+                50%  { background-color: #ff0000; }
+                100% { background-color: #ffffff; }
             }
         `;
         injectStyle(keyframesStyle);
@@ -56,13 +54,6 @@ class Hud extends React.PureComponent<{}, State> {
         this.setState({
             current_player: e.currentTarget.value,
         });
-    }
-
-    private bg_reg(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-        const bg = document.getElementById("lookatme")!;
-        bg.style.webkitAnimation = "none";
-        const txt = document.getElementById("backtoreg")!;
-        txt.style.color = "black";
     }
 
     public signOut(event: React.ChangeEvent<HTMLFormElement>) {
@@ -86,17 +77,13 @@ class Hud extends React.PureComponent<{}, State> {
                         <Pages players={players} {...this.state} />
                     </div>
                     <div className="flex-column w-20 outline-l relative">
-                        <div className="tc pv3" id="lookatme" style={{WebkitAnimation:"pulse 2s linear infinite"}}>
-                            <span className="pl4 pr1" id="backtoreg" style={{color:"white"}}>i am:</span>
+                        <div className="tc pv3" id="lookatme" style={{WebkitAnimation:"pulse 0.75s linear 5"}}>
+                            <span className="pr1">i am:</span>
                             <select value={this.state.current_player} onChange={this.change_player}>
                                 { players.slice(2).map( player => {
                                     return <option value={player}>{player}</option>
                                 }) }
                             </select>
-                            <a href="#!"
-                            onClick={this.bg_reg}
-                            className="pl2 pr2"
-                            style={{color:"white", textDecoration:"none"}}>&#x2714;&#xfe0e;</a>
                         </div>
                         <div className="bb"></div>
                         <Tools/>
