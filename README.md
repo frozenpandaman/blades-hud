@@ -14,11 +14,10 @@ Runs on [http://localhost:3000](http://localhost:3000) in the browser.
 ### Configuration
 * `index.tsx`: Hardcoded [Firebase](https://firebase.google.com/) app info, campaign title, player names
 * Set up Cloud Filestore (NoSQL backend) with the security rule found in `cloud_firestore_rules.txt` (gives access with auth only)
+* Configure your `package.json` as described [here](https://create-react-app.dev/docs/deployment/#github-pages) to deploy to GitHub Pages
 
 ## Production
 
-```
-$ npm run build
-```
+`npm run build` optimizes & builds the web app into the `build/` folder.
 
-Optimizes & builds the app into the `build` folder. GitHub Pages deployment specifications are in `package.json`.
+To deploy, run `npm run deploy`.
