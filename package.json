@@ -23,7 +23,7 @@
     "react-scripts": "^3.4.3",
     "typescript": "latest"
   },
-  "homepage": "https://frozenpandaman.github.io/blades/",
+  "homepage": "https://frozenpandaman.github.io/blades-hud/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
