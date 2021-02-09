@@ -21,3 +21,9 @@ Runs on [http://localhost:3000](http://localhost:3000) in the browser.
 `npm run build` optimizes & builds the web app into the `build/` folder.
 
 To deploy, run `npm run deploy`.
+
+## Screenshots
+
+![clocks page](docs/ss1.png)
+![map page](docs/ss2.png)
+![notes page](docs/ss3.png)
