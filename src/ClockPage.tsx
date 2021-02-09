@@ -1,11 +1,14 @@
 import React from "react";
 import * as util from "./Util";
 import { Clock_t } from "./Types";
-import {oneshot} from "./index";
+import { oneshot } from "./index";
 import ClockBar from "./ClockBar";
+import { playerlist } from "./index";
 import * as firebase from "firebase/app";
 import Konva from "konva";
 
+export const WORLD_CLOCK_NAME = "world";
+export const GROUP_CLOCK_NAME = "group";
 
 interface State {
     group_clocks: Map<string, Clock_t>;
@@ -28,12 +31,14 @@ class ClockPage extends React.PureComponent<Props, State> {
         this.state = {
             group_clocks: new Map(),
             world_event_clocks: new Map(),
-            player_clocks: {
-                "milena": new Map(), // HARDCODED
-                "avery": new Map(),
-            },
+            player_clocks: {},
             unsub_fns:[]
         };
+
+        for (const player of playerlist) {
+            this.state.player_clocks[player] = new Map();
+        }
+
         this.handle_clock_click = this.handle_clock_click.bind(this);
         this.new_clock = this.new_clock.bind(this);
         this.delete_clock = this.delete_clock.bind(this);
@@ -53,7 +58,7 @@ class ClockPage extends React.PureComponent<Props, State> {
         let unsub_funcs: Function[] = [];
 
         for (let i = 0; i < this.props.players.length; i++) {
-            unsub_funcs[i] = this.props.db.collection(this.props.players[i] + "_clocks")
+            unsub_funcs[i] = this.props.db.collection("clocks_" + this.props.players[i])
                 .orderBy("timestamp", "desc")
                 .onSnapshot(snap => {
                     const clocks = snap.docs.map(doc => doc.data() as Clock_t);
@@ -62,11 +67,11 @@ class ClockPage extends React.PureComponent<Props, State> {
                     let gc = new Map<string, Clock_t>();
                     doc_ids.forEach((id, i) => { gc.set(id, clocks[i])});
 
-                    if (this.props.players[i] === "group") {
+                    if (this.props.players[i] === GROUP_CLOCK_NAME) {
                         this.setState({
                             group_clocks: gc,
                         });
-                    } else if (this.props.players[i] === "world events") {
+                    } else if (this.props.players[i] === WORLD_CLOCK_NAME) {
                         this.setState({
                             world_event_clocks: gc,
                         });
@@ -94,10 +99,10 @@ class ClockPage extends React.PureComponent<Props, State> {
 
     private new_clock(owner: string, desc: string, n_slices: number) {
         if (n_slices > 50) {
-            window.alert("can't make a clock with over 50 slices");
+            window.alert("can't make a clock with over 50 slices!");
         }
         else {
-            this.props.db.collection(owner + "_clocks").add({
+            this.props.db.collection("clocks_" + owner).add({
                 desc: desc,
                 n_slices: n_slices,
                 progress: 0,
@@ -137,7 +142,7 @@ class ClockPage extends React.PureComponent<Props, State> {
         const incr = e.button === 0 ? 1 : -1;
 
         // set the new clock
-        const clock_doc = this.props.db.collection(owner + "_clocks").doc(id);
+        const clock_doc = this.props.db.collection("clocks_" + owner).doc(id);
 
         clock_doc.get().then(a => {
             const old_clock = a.data() as Clock_t;
@@ -146,20 +151,20 @@ class ClockPage extends React.PureComponent<Props, State> {
     }
 
     private delete_clock(id: string, owner: string) {
-        this.props.db.collection(owner + "_clocks").doc(id).delete();
+        this.props.db.collection("clocks_" + owner).doc(id).delete();
     }
 
     render(){
-        var default_clocks = ["world events"];
+        var default_clocks = [WORLD_CLOCK_NAME];
         if (!oneshot) {
-            default_clocks.push("group"); // no group from view for oneshot
+            default_clocks.push(GROUP_CLOCK_NAME); // no group from view for oneshot
         }
         const ordered_players = default_clocks.concat(util.bring_to_front(this.props.players.slice(2), this.props.current_player));
 
         let get_clocks = (owner: string) => {
-            if (owner === "group") {
+            if (owner === GROUP_CLOCK_NAME) {
                 return this.state.group_clocks;
-            } else if (owner === "world events") {
+            } else if (owner === WORLD_CLOCK_NAME) {
                 return this.state.world_event_clocks;
             } else {
                 return this.state.player_clocks[owner];

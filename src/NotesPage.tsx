@@ -200,7 +200,7 @@ class NotesPage extends React.PureComponent<Props, State> {
                             {
                             this.state.types.map(t => {
                                 return(
-                                    <option value={t}>{t.toLowerCase()}</option>
+                                    <option key={t} value={t}>{t.toLowerCase()}</option>
                                 )
                             })
                         }

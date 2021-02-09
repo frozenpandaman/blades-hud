@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as firebase from "firebase/app";
-import {db_email, title} from "./index";
+import { db_email, title } from "./index";
 import "firebase/auth";
 
 interface State {

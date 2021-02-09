@@ -2,12 +2,11 @@ import React from "react";
 import SignIn from "./SignIn";
 import Pages from "./Pages";
 import Tools from "./Tools";
+import { playerlist as players } from "./index";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import injectStyle from './injectStyle';
-
-const players = ["group", "world events", "milena", "avery"]; // HARDCODED
 
 interface State {
     user: firebase.User | null;
@@ -23,7 +22,6 @@ class Hud extends React.PureComponent<{}, State> {
         const unsub_auth = firebase.auth().onAuthStateChanged(user => {
             this.setState({ user: user });
         });
-
 
         this.state = {
             user: null,
@@ -81,18 +79,18 @@ class Hud extends React.PureComponent<{}, State> {
                             <span className="pr1">i am:</span>
                             <select value={this.state.current_player} onChange={this.change_player}>
                                 { players.slice(2).map( player => {
-                                    return <option value={player}>{player}</option>
+                                    return <option key={player} value={player}>{player}</option>
                                 }) }
                             </select>
                         </div>
                         <div className="bb"></div>
                         <Tools/>
                         <div className="mb3 bb"></div>
-                        <p className="b f6 tc">
+                        <div className="b f6 tc">
                             <form onSubmit={this.signOut}>
                                 <input type="submit" value="done playing" />
                             </form>
-                        </p>
+                        </div>
                         <div
                         className="f6 tc absolute"
                         style={{width:"100%", bottom:"4px", left:"50%", transform:"translateX(-50%)"}}>

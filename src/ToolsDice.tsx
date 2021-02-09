@@ -51,7 +51,7 @@ class Dice extends React.PureComponent<{}, State> {
     render(){
         const dice = this.state.dice.map((num, index) => {
             return(
-                <div className="w3 h3 ba bw1 pointer tc flex flex-column justify-center ma2 br3"
+                <div key={index} className="w3 h3 ba bw1 pointer tc flex flex-column justify-center ma2 br3"
                 style={{backgroundColor:this.state.color}}
                      onClick={()=>this.handle_die_click(index)}
                 >
@@ -108,7 +108,7 @@ class Dice extends React.PureComponent<{}, State> {
             </div>
             <div className="mv4"></div>
             <div>
-                <textarea className="w-100" rows={10}>
+                <textarea className="w-100 f6" rows={10}>
                 </textarea>
                 <br />
                 <div className="tc">memo pad</div>

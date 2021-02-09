@@ -92,7 +92,8 @@ class MapPage extends React.PureComponent<Props, State> {
                 doc_ids.forEach((id, i) => { gl.set(id, landmarks[i])});
                 this.setState({
                     landmarks: gl,
-                }, ()=>console.log(this.state.landmarks));
+                });
+                // }, ()=>console.log(this.state.landmarks));
             });
 
         this.setState((state, props) => {
@@ -242,7 +243,6 @@ class MapPage extends React.PureComponent<Props, State> {
     }
 
     private changeColor(id:string, color:string){
-        console.log(color)
         const landmark = this.props.db.collection("landmarks").doc(this.state.selected_landmark);
         landmark.set({
             color:color
@@ -250,10 +250,10 @@ class MapPage extends React.PureComponent<Props, State> {
     }
 
     render(){
-        let lm = this.state.landmarks.get(this.state.selected_landmark)
-        let name = lm?.name ? lm!.name : "n/a"
-        let x = lm?.x!*this.state.img_width
-        let y = lm?.y!*this.state.img_height
+        let lm = this.state.landmarks.get(this.state.selected_landmark);
+        let name = lm?.name ? lm!.name : "n/a";
+        let x = lm?.x!*this.state.img_width || 0;
+        let y = lm?.y!*this.state.img_height || 0;
         let left = x!>.5*this.state.img_width?"-105%":"5%";
         let top = y!>.5*this.state.img_height?"-125%":"5%";
         return (
@@ -273,6 +273,7 @@ class MapPage extends React.PureComponent<Props, State> {
                         const landmark = pair[1];
                         return(
                             <div
+                                key={id}
                                 style={{position:"absolute", left:this.state.img_width*landmark.x, top:this.state.img_height*landmark.y, transform:"translateY(-100%) translateX(-50%)"}}
                             >
                                 <IconContext.Provider value={{size:this.state.selected_landmark===id?"3em":"2em", color: landmark.color?landmark.color:"red", }}>
@@ -288,7 +289,7 @@ class MapPage extends React.PureComponent<Props, State> {
 
                 <div style={{position:"absolute", display: this.state.panel_open ? 'flex' : 'none',
                     flexDirection:"column", justifyContent:"space-between",
-                    left: x, top:y, transform: "translateY("+top+") translateX("+left+")",
+                    left:x, top:y, transform:"translateY("+top+") translateX("+left+")",
                     width:"40%", minWidth:"350px", minHeight:"75px",
                     backgroundColor:"white", border:"1px solid black", padding:"5px",
                 }}>

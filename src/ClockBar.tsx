@@ -11,34 +11,39 @@ interface Props {
 }
 
 function ClockBar(props: Props) {
-    const clocks = Array.from(props.clocks).map(pair => {
-        const id = pair[0];
-        const clock = pair[1];
+    var clocks:any[] = [];
+    try {
+        clocks = Array.from(props.clocks).map(pair => {
+            const id = pair[0];
+            const clock = pair[1];
 
-        return (
-                <div key={id} className="flex flex-column justify-between">
-                    <div className="">
-                        <Clock
-                            clock={clock}
-                            incr_func={e => props.click_func(e, props.owner, id)}
-                        />
+            return (
+                    <div key={id} className="flex flex-column justify-between">
+                        <div className="">
+                            <Clock
+                                clock={clock}
+                                incr_func={e => props.click_func(e, props.owner, id)}
+                            />
+                        </div>
+                        <div className="tc pb2">
+                                <a href="#!" className="bg-light-gray ba ph2 pv1 pointer f6"
+                                    style={{color:"black", textDecoration:"none"}}
+                                    onClick={() => {
+                                       props.delete_func(id, props.owner);
+                                    }}
+                                >&#x2715;</a>
+                        </div>
                     </div>
-                    <div className="tc pb2">
-                            <a href="#!" className="bg-light-gray ba ph2 pv1 pointer f6"
-                                style={{color:"black", textDecoration:"none"}}
-                                onClick={() => {
-                                   props.delete_func(id, props.owner);
-                                }}
-                            >&#x2715;</a>
-                    </div>
-                </div>
-        );
-    });
+            );
+        });
+    } catch(e) {
+        console.error(e);
+    }
 
     return (
         <div>
             <div className="p0">
-                <p className="f3">{props.owner.toLowerCase()}</p>
+                <p className="f3 ttl">{props.owner}</p>
             </div>
             <div className="flex">
                 <div className="flex flex-column tc bg-light-blue ba bw0 ph2 pv1 pointer justify-center"

@@ -38,7 +38,7 @@ class Pages extends React.PureComponent<Props, State> {
             <div className="pa1 w-100 vh-100 overflow-y-scroll" >
                 <div className="flex flex-wrap" style={{justifyContent:"space-around"}}>
                     {pages.map(page =>{return(
-                        <a href="#!"
+                        <a key={page} href="#!"
                             style={{color:"black", textDecoration:"none"}}
                             className="bg-light-blue ba bw0 ph2 pv1 mh1 f3 flex-auto pointer tc"
                             onClick={()=>this.setState({current_page:page})}

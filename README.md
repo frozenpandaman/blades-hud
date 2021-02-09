@@ -11,7 +11,9 @@ $ npm start
 
 Runs on [http://localhost:3000](http://localhost:3000) in the browser.
 
-Config for your [Firebase](https://firebase.google.com/) app goes in `index.tsx`. The Cloud Filestore (NoSQL backend) security rule that enables access with auth only is in `cloud_firestore_rules.txt`.
+### Configuration
+* `index.tsx`: Hardcoded [Firebase](https://firebase.google.com/) app info, campaign title, player names
+* Set up Cloud Filestore (NoSQL backend) with the security rule found in `cloud_firestore_rules.txt` (gives access with auth only)
 
 ## Production
 
@@ -20,10 +22,3 @@ $ npm run build
 ```
 
 Optimizes & builds the app into the `build` folder. GitHub Pages deployment specifications are in `package.json`.
-
----
-
-### Notes
-
-* Player names are currently hardcoded into `Hud.tsx` **and** `ClockPage.tsx`.
-* Campaign title & example database connection info are currently hardcoded into `index.tsx`.
