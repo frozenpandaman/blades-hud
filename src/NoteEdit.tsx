@@ -35,8 +35,7 @@ class EditNote extends React.PureComponent<Props,  State> {
         return <div className="w-100" >
             <div className="w-100 flex justify-between">
                 <div className="flex flex-wrap" style={{justifyContent:"space-between"}}>
-                    <a href="#!" className="bg-red ba ph2 pv1 pointer tc"
-                        style={{color:"black", textDecoration:"none"}}
+                    <a href="#!" className="bg-red ba ph2 pv1 pointer tc black no-underline"
                         onClick={()=>this.props.delete_note(this.props.id)}
                     >
                         delete
@@ -70,15 +69,13 @@ class EditNote extends React.PureComponent<Props,  State> {
             </p>
             <div className="w-100 flex justify-between">
                 <div className="flex flex-wrap" style={{justifyContent:"space-around"}}>
-                    <a href="#!" className="bg-light-gray ba ph2 pv1 pointer tc"
-                        style={{color:"black", textDecoration:"none"}}
+                    <a href="#!" className="bg-light-gray ba ph2 pv1 pointer tc black no-underline"
                         onClick={()=>this.props.cancel_edit_note(this.props.id)}
                     >
                         cancel
                     </a>
                     <div className="ph1"></div>
-                    <a href="#!" className="bg-light-blue ba ph2 pv1 pointer tc"
-                        style={{color:"black", textDecoration:"none"}}
+                    <a href="#!" className="bg-light-blue ba ph2 pv1 pointer tc black no-underline"
                         onClick={()=>{
                             this.props.save_note(this.props.id, this.state.name, this.state.type, this.state.desc)
                             this.props.cancel_edit_note(this.props.id)

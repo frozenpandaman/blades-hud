@@ -172,9 +172,9 @@ class ClockPage extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div>
+            <div className="ml1">
                 {ordered_players.map(owner => {
-                    return <div key={owner} className="">
+                    return <div key={owner}>
                         <ClockBar owner={owner}
                                   clocks={get_clocks(owner)}
                                   click_func={this.handle_clock_click}

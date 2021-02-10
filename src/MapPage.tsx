@@ -260,7 +260,7 @@ class MapPage extends React.PureComponent<Props, State> {
             <div style={{position:"relative"}}>
                 <img ref={this.element}
                     alt=""
-                    className="w-100 pv1"
+                    className="w-100 mv1"
                     src={map}
                     id="map"
                     style={{position:"absolute", cursor: this.state.panel_open ? "auto" : "crosshair"}}
@@ -306,7 +306,7 @@ class MapPage extends React.PureComponent<Props, State> {
                                 close
                             </button>
                         </div>
-                        <h2 className="ma1">{name}</h2>
+                        <h2 className="ma1 label">{name}</h2>
                     </div>
                     <div style={{transform:"scale(0.75)"}}>
                         <CirclePicker

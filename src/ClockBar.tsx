@@ -26,8 +26,7 @@ function ClockBar(props: Props) {
                             />
                         </div>
                         <div className="tc pb2">
-                                <a href="#!" className="bg-light-gray ba ph2 pv1 pointer f6"
-                                    style={{color:"black", textDecoration:"none"}}
+                                <a href="#!" className="bg-light-gray ba ph2 pv1 pointer f6 black no-underline"
                                     onClick={() => {
                                        props.delete_func(id, props.owner);
                                     }}

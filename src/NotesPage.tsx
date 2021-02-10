@@ -134,7 +134,7 @@ class NotesPage extends React.PureComponent<Props, State> {
                 style={{backgroundColor:color_map.get(note.type.toLowerCase())}}
             >
                 <div>
-                    <h2 className="mv1 pl1">{note.name}</h2>
+                    <h2 className="mv1 pl1 label">{note.name}</h2>
                 </div>
                 <button className="bg-grey ba bw0 ph2 pv1 pointer tc br ml3"
                         onClick={()=>this.edit_note(id)}
@@ -144,7 +144,7 @@ class NotesPage extends React.PureComponent<Props, State> {
             </div>
             <p style={{whiteSpace: "pre-wrap"}}>{note.desc}</p>
             <h3
-                className="mv1 ph1 absolute bottom-0 right-0"
+                className="mv1 ph1 absolute bottom-0 right-0 label"
                 style={{backgroundColor:color_map.get(note.type.toLowerCase())}}
             >{note.type.toLowerCase()}</h3>
         </div>
@@ -185,7 +185,7 @@ class NotesPage extends React.PureComponent<Props, State> {
                 className="flex flex-wrap"
             >
                 <div
-                    className="mw6 h5 pa1 ba ma2 flex flex-column bg-yellow"
+                    className="mw6 h5 pa1 ba ml1 mt2 mr2 mb2 flex flex-column bg-yellow"
                 >
                     <div className="flex-auto overflow-y-auto">
                         <button className="bg-gold ba ph2 pv1 f4 flex-auto pointer tc"
@@ -195,7 +195,7 @@ class NotesPage extends React.PureComponent<Props, State> {
                         >
                             new note
                         </button>
-                        <h3>filter:</h3>
+                        <h3 className="label">filter:</h3>
                         <select onChange={(e)=>this.setState({filter:e.target.value})}>
                             {
                             this.state.types.map(t => {
@@ -205,7 +205,7 @@ class NotesPage extends React.PureComponent<Props, State> {
                             })
                         }
                         </select>
-                        <h3>sort:</h3>
+                        <h3 className="label">sort:</h3>
                         <select onChange={(e)=>this.setState({sort:e.target.value})}>
                             <option value="Date">date</option>
                             <option value="Name">name</option>

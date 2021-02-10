@@ -7,6 +7,9 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import injectStyle from './injectStyle';
+import DarkModeSwitcher from './DarkModeSwitcher';
+
+import './styles.css';
 
 interface State {
     user: firebase.User | null;
@@ -34,9 +37,9 @@ class Hud extends React.PureComponent<{}, State> {
 
         const keyframesStyle = `
             @-webkit-keyframes pulse {
-                0%   { background-color: #ffffff; }
+                0%   { background-color: transparent; }
                 50%  { background-color: #ff0000; }
-                100% { background-color: #ffffff; }
+                100% { background-color: transparent; }
             }
         `;
         injectStyle(keyframesStyle);
@@ -74,7 +77,7 @@ class Hud extends React.PureComponent<{}, State> {
                     <div className="flex flex-column w-80">
                         <Pages players={players} {...this.state} />
                     </div>
-                    <div className="flex-column w-20 outline-l relative">
+                    <div className="flex-column w-20 bl relative">
                         <div className="tc pv3" id="lookatme" style={{WebkitAnimation:"pulse 0.75s linear 5"}}>
                             <span className="pr1">i am:</span>
                             <select value={this.state.current_player} onChange={this.change_player}>
@@ -84,17 +87,26 @@ class Hud extends React.PureComponent<{}, State> {
                             </select>
                         </div>
                         <div className="bb"></div>
-                        <Tools/>
-                        <div className="mb3 bb"></div>
-                        <div className="b f6 tc">
+                            <Tools/>
+                        <div className="bb"></div>
+                        <div className="b f6 tc pv3 bg-washed-blue">
+                            <DarkModeSwitcher />
+                        </div>
+                        <div className="bb"></div>
+                        <div className="f6 tc mv3">
                             <form onSubmit={this.signOut}>
                                 <input type="submit" value="done playing" />
                             </form>
+                            <br/><br/>
                         </div>
                         <div
                         className="f6 tc absolute"
                         style={{width:"100%", bottom:"4px", left:"50%", transform:"translateX(-50%)"}}>
-                            last site update: 2/7/2021
+                            <a
+                            className="toggle no-underline"
+                            href="https://github.com/frozenpandaman/blades-hud">
+                                last site update: 2/10/2021
+                            </a>
                         </div>
                     </div>
                 </div>

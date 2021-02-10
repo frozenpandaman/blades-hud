@@ -39,8 +39,7 @@ class Pages extends React.PureComponent<Props, State> {
                 <div className="flex flex-wrap" style={{justifyContent:"space-around"}}>
                     {pages.map(page =>{return(
                         <a key={page} href="#!"
-                            style={{color:"black", textDecoration:"none"}}
-                            className="bg-light-blue ba bw0 ph2 pv1 mh1 f3 flex-auto pointer tc"
+                            className="bg-light-blue ba bw0 ph2 pv1 mh1 f3 flex-auto pointer tc black no-underline"
                             onClick={()=>this.setState({current_page:page})}
                         >
                             {pages_map.get(page)} {page}
